@@ -1,4 +1,8 @@
-string first_name
-string last_name
+
+string GPGGA
+string GNZDA
+string GNVTG
+
+
 uint8 age
 uint32 score

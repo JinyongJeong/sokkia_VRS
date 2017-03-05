@@ -12,7 +12,7 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Float64.h>
-#include <vrs_gps.h>
+#include <vrs_gps_driver/vrs_gps.h>
 #ifdef __linux__
 #include <linux/serial.h>
 #define SUPPORT_HISPEED 1

@@ -13,6 +13,8 @@ add_message_files(
   vrs_gps.msg
 )
 
+generate_messages() 
+
 catkin_package(
   CATKIN_DEPENDS
     serial

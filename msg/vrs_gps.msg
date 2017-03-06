@@ -13,6 +13,7 @@ float64 x_coordinate
 float64 y_coordinate
 
 int8 fix_state
+string fix_state_str
 
 float64 h_accuracy
 float64 v_accuracy

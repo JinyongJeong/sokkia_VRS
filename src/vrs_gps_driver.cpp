@@ -82,7 +82,7 @@ main (int argc, char *argv[])
 
                     double RTK_lat;
                     double RTK_lon;
-                    int fix_stat;
+                    int fix_state;
                     int num_of_sat;
                     double RTK_x;   //final result
                     double RTK_y;   //final result
@@ -104,26 +104,36 @@ main (int argc, char *argv[])
 
                         RTK_lat = latitude_conv;
                         RTK_lon = longitude_conv;
+
                         cout << RTK_lat << endl;
                         cout << RTK_lon << endl;
-                        fix_stat = (int)std::stod(x[6]);
+
+                        fix_state = (int)std::stod(x[6]);
                         num_of_sat = (int)std::stod(x[7]);
 
                         CoordConv.Conv(RTK_lon, RTK_lat, RTK_x, RTK_y);
-//                        gps_data_publish.longitude = RTK_lon;
+                        gps_data_publish.longitude = RTK_lon;
 
+                        gps_data_publish.latitude = RTK_lat;
 
-//                        gps_data_publish.longitude = RTK_lat;
-
-//                        gps_data_publish.x_coordinate = RTK_x;
-//                        gps_data_publish.y_coordinate = RTK_y;
+                        gps_data_publish.x_coordinate = RTK_x;
+                        gps_data_publish.y_coordinate = RTK_y;
 
                         cout << RTK_x << endl;
                         cout << RTK_y << endl;
 
                         gps_data_publish.number_of_sat = num_of_sat;
 
-                        gps_data_publish.fix_state = fix_stat;
+                        gps_data_publish.fix_state = fix_state;
+                        if(fix_state == 1){
+                            gps_data_publish.fix_state_str = "normal";
+                        }
+                        if(fix_state == 4){
+                            gps_data_publish.fix_state_str = "fix";
+                        }
+                        if(fix_state == 5){
+                            gps_data_publish.fix_state_str = "float";
+                        }
 
                     }
                 }
@@ -148,6 +158,7 @@ main (int argc, char *argv[])
 
                 if(GPGGA_flag == true && GNZDA_flag == true && GNVTG_flag == true){
                     vrs_gps_pub.publish(gps_data_publish);
+                    cout << "publsih" << endl;
                     GPGGA_flag = false;
                     GNGSA_flag = false;
                     GNZDA_flag = false;

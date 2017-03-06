@@ -35,10 +35,13 @@ add_definitions(-std=c++11)
 add_executable(vrs_gps_driver src/vrs_gps_driver.cpp src/GeoCoordConv.cpp include/GeoCoordConv.h
 src/basic_serial.cpp include/basic_serial.h)
 
-add_dependencies(vrs_gps_driver vrs_gps_driver_generate_messages_cpp)
 
 
 target_link_libraries(vrs_gps_driver
   ${catkin_LIBRARIES}
 )
+
+#add_dependencies(vrs_gps_driver vrs_gps_driver_generate_messages_cpp)
+add_dependencies(vrs_gps_driver ${catkin_EXPORTED_TARGETS})
+
 

@@ -9,6 +9,9 @@ string GNGSA
 float64 longitude
 float64 latitude
 
+float64 x_coordinate
+float64 y_coordinate
+
 int8 fix_state
 
 float64 h_accuracy

@@ -1,10 +1,10 @@
 <launch>
-    <arg name="device" default="/dev/ttyUSB-rtk"/>
-    <arg name="vrs_gps_driver" default="vrs_gps_driver"/>
+    <arg name="device" default="/dev/ttyUSB-vrs"/>
+    <arg name="driver" default="vrs_gps_driver"/>
     <arg name="baudrate" default="115200"/>
     <arg name="output" default="screen"/>
 
-    <node name="$(arg vrs_gps_driver)" pkg="vrs_gps_driver" type="vrs_gps_driver" output="$(arg output)">
+    <node name="$(arg driver)" pkg="$(arg driver)" type="$(arg driver)" output="$(arg output)">
         <param name="device" type="string" value="$(arg device)"/>
         <param name="baudrate" type="int" value="$(arg baudrate)"/>
     </node>

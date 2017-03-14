@@ -12,6 +12,20 @@
 
 using namespace std;
 
+int
+_send_init_command (int fd)
+{
+    unsigned char cmd[] = {'<', 'M', 'C', '\r', '\n'};
+    int n_written = write (fd, cmd, sizeof(cmd)-1);
+
+    if (n_written > 0)
+        printf ("Write (%d): %s\n", n_written, cmd);
+    else
+        printf ("Error writing n=%d\n", n_written);
+
+    return n_written;
+}
+
 int 
 main (int argc, char *argv[])
 {
@@ -20,11 +34,13 @@ main (int argc, char *argv[])
     ros::NodeHandle nh;
     ros::Publisher vrs_gps_pub = nh.advertise<vrs_gps_driver::vrs_gps>("vrs_gps_data", 10);
 
-    char ttydev[] = "/dev/ttyUSB-vrs";
+    std::string ttydev;
     int brate = 115200;
-    char channel[] = "vrs_gps_data";
+    ros::param::param<std::string>("~device", ttydev, "/dev/ttyUSB-vrs");
+    ros::param::param<int>("~baudrate", brate, 115200);
+    int fd = serial_open (ttydev.c_str(), brate, 0);
 
-    int fd = serial_open (ttydev, brate, 0);
+    char channel[] = "vrs_gps_data";
 
     serial_set_canonical (fd);
 
@@ -52,7 +68,7 @@ main (int argc, char *argv[])
     char vrs_data_label[6];
 
     vrs_gps_driver::vrs_gps gps_data_publish;
-
+    if (_send_init_command (fd) < 0) return -1;
     while(ros::ok()) {
         ros::spinOnce();
         poll_state = poll((struct pollfd*)&poll_events, 1, 10);
